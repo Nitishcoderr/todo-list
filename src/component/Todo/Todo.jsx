@@ -1,11 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-const Todo = () => {
+const Todo = ({ todoData, isFinished, changeFinished, onDelete, onEdit }) => {
+  const [finished, setFinished] = useState(isFinished);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(todoData);
   return (
     <div>
-      
+      <input
+        type="checkbox"
+        checked={finished}
+        onChange={(e) => {
+          setFinished(e.target.checked);
+          changeFinished(e.target.checked);
+        }}
+      />
+      <div>
+        {isEditing ? (
+          <input value={editText}
+            type="text"
+            onChange={(e) => setEditText(e.target.value)}
+          />
+        ) : (
+          <span> {todoData} </span>
+        )}
+        <button
+          onClick={() => {
+            setIsEditing(!isEditing);
+            onEdit(editText);
+          }}>
+          {!isEditing ? 'Edit' : 'Save'}
+        </button>
+        <button onClick={onDelete}>Delete</button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Todo
+export default Todo;
