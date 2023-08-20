@@ -16,6 +16,18 @@ function todoReducer(state,action){
         let todo = action.payload.todo
         const updateList = state.filter(t=>t.id!=todo.id)
         return updateList;
+    }else if(action.type == 'finish_todo' ){
+        let todo = action.payload.todo
+        let isFinished = action.payload.isFinished;
+        const updateList = state.map(t=>{
+            if(t.id == todo.id){
+                todo.finished = isFinished
+            }
+            return t;
+        })
+        return updateList;
+    }else{
+        return state;
     }
 }
 
